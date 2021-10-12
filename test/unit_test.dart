@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:project/utils/colors_manager.dart';
-import 'package:project/utils/images_manager.dart';
 
 void main() {
   test('Color components should be in the range from 0 to 255', () {
