@@ -12,11 +12,4 @@ void main() {
       expect(color.blue >= 0 && color.blue <= 255, true);
     }
   });
-
-  test('image url must contain given pattern', () {
-    const pattern = "https://picsum.photos/200/300";
-    String imageUrl = getRandomPictureUrl();
-
-    expect(imageUrl.contains(pattern), true);
-  });
 }
