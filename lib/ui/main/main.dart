@@ -1,94 +1,83 @@
-
 import 'package:flutter/material.dart';
+import 'package:project/utils/colors_manager.dart';
+import 'package:project/utils/images_manager.dart';
+
 import '../../utils/constants.dart';
 
 void main() {
-  runApp(const MaterialApp(home: Scaffold(body: Main())));
+  runApp(const MaterialApp(
+    home: Scaffold(
+      body: Main(),
+    ),
+  ));
 }
 
 class Main extends StatefulWidget {
   const Main({Key? key}) : super(key: key);
 
   @override
-  MainState createState() => MainState();
+  _MainState createState() => _MainState();
 }
 
+class _MainState extends State<Main> {
+  Color _backgroundColor = Colors.green;
+  Color _textColor = Colors.black;
+  int _clicksCount = 0;
+  String _randomPictureUrl = getRandomPictureUrl();
+  final bool _isBackgroundAnImage = true;
 
-
-class MainState extends State<Main> {
-  Color backgroundColor = Colors.green;
-  Color textColor = Colors.black;
-  int value = 0;
-  String randomPictureUrl = "https://picsum.photos/200/300";
-  bool isImageBackground = true;
-
-  changeColors() {
-    backgroundColor = getRandomColor();
-    textColor = getRandomColor();
-    updateImage();
-    setState(() => randomPictureUrl);
-    setState(() => ++value);
-    setState(() => textColor);
-    setState(() => backgroundColor);
-  }
-
-  updateImage() {
-    randomPictureUrl =
-        "https://picsum.photos/200/300?v=${DateTime.now().millisecondsSinceEpoch}";
-  }
-
-  Color getRandomColor() {
-    return Color.fromARGB(
-      alpha,
-      random.nextInt(colorComponentsRange),
-      random.nextInt(colorComponentsRange),
-      random.nextInt(colorComponentsRange),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
-    if (isImageBackground) {
-      return setImageBackground();
-    }
-    return setColorBackground();
+    return GestureDetector(
+      onTap: updateUI,
+      child:
+          _isBackgroundAnImage ? loadImageBackground() : loadColorBackground(),
+    );
   }
 
-  GestureDetector setImageBackground() => GestureDetector(
-        onTap: changeColors,
-        child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: NetworkImage(randomPictureUrl), fit: BoxFit.cover)),
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Hey there!\nYou clicked $value times',
-              style: TextStyle(
-                  fontSize: random.nextInt(fontSizeRange) + minFontSize,
-                  color: textColor,
-                  decoration: TextDecoration.none),
-              textDirection: TextDirection.ltr,
-            ),
-          ),
-        ),
-      );
+  updateUI() {
+    _backgroundColor = getRandomColor();
+    _textColor = getRandomColor();
+    _randomPictureUrl = getRandomPictureUrl();
+    setState(() => _randomPictureUrl);
+    setState(() => _clicksCount++);
+    setState(() => _textColor);
+    setState(() => _backgroundColor);
+  }
 
-  GestureDetector setColorBackground() => GestureDetector(
-        onTap: changeColors,
-        child: Container(
-          color: backgroundColor,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Hey there!\nYou clicked $value times',
-              style: TextStyle(
-                  fontSize: random.nextInt(fontSizeRange) + minFontSize,
-                  color: textColor,
-                  decoration: TextDecoration.none),
-              textDirection: TextDirection.ltr,
-            ),
-          ),
+  Container loadImageBackground() {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: NetworkImage(_randomPictureUrl),
+          fit: BoxFit.cover,
         ),
-      );
+      ),
+      child: getAlign(),
+    );
+  }
+
+  Container loadColorBackground() {
+    return Container(
+      color: _backgroundColor,
+      child: getAlign(),
+    );
+  }
+
+  getAlign() {
+    return Align(
+      alignment: Alignment.center,
+      child: Text(
+        'Hey there!\nYou clicked $_clicksCount times',
+        style: TextStyle(
+            fontSize: getRandomTextSize(),
+            color: _textColor,
+            decoration: TextDecoration.none),
+        textDirection: TextDirection.ltr,
+      ),
+    );
+  }
+
+  double getRandomTextSize() => random.nextInt(fontSizeRange) + minFontSize;
 }
