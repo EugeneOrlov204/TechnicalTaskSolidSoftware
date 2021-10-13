@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/utils/colors_manager.dart';
-
-import '../../utils/constants.dart';
+import 'package:project/utils/text_manager.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -51,6 +50,4 @@ class _MainState extends State<Main> {
     setState(() => _textColor);
     setState(() => _backgroundColor);
   }
-
-  double getRandomTextSize() => random.nextInt(fontSizeRange) + minFontSize;
 }
