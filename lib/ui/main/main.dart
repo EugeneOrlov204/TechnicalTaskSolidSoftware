@@ -31,7 +31,7 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  Color _backgroundColor = Colors.green;
+  Color _backgroundColor = currentBackground;
   Color _textColor = Colors.black;
 
   @override
@@ -69,6 +69,7 @@ class _MainState extends State<Main> {
 
   updateUI() {
     _backgroundColor = getRandomColor();
+    currentBackground = _backgroundColor;
     _textColor = getRandomColor();
     setState(() => clicksCount++);
     setState(() => _textColor);

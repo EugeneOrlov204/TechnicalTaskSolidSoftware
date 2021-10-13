@@ -14,10 +14,8 @@ class ImagePage extends StatefulWidget {
 }
 
 class _ImagePageState extends State<ImagePage> {
-  Color _backgroundColor = Colors.green;
   Color _textColor = Colors.black;
-
-  String _randomPictureUrl = getRandomPictureUrl();
+  String _randomPictureUrl = currentImageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +56,11 @@ class _ImagePageState extends State<ImagePage> {
   }
 
   updateUI() {
-    _backgroundColor = getRandomColor();
-    _textColor = getRandomColor();
     _randomPictureUrl = getRandomPictureUrl();
+    currentImageUrl = _randomPictureUrl;
+    _textColor = getRandomColor();
     setState(() => _randomPictureUrl);
     setState(() => clicksCount++);
     setState(() => _textColor);
-    setState(() => _backgroundColor);
   }
 }
