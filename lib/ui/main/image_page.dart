@@ -4,6 +4,8 @@ import 'package:project/utils/colors_manager.dart';
 import 'package:project/utils/images_manager.dart';
 import 'package:project/utils/text_manager.dart';
 
+import 'globals.dart';
+
 class ImagePage extends StatefulWidget {
   const ImagePage({Key? key}) : super(key: key);
 
@@ -14,12 +16,8 @@ class ImagePage extends StatefulWidget {
 class _ImagePageState extends State<ImagePage> {
   Color _backgroundColor = Colors.green;
   Color _textColor = Colors.black;
-  int _clicksCount = 0;
-  String _randomPictureUrl = getRandomPictureUrl();
 
-  _previousPage(BuildContext context) async {
-    Navigator.of(context).pushReplacementNamed("/home");
-  }
+  String _randomPictureUrl = getRandomPictureUrl();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class _ImagePageState extends State<ImagePage> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                'Hey there!\nYou clicked $_clicksCount times',
+                'Hey there!\nYou clicked $clicksCount times',
                 style: TextStyle(
                     fontSize: getRandomTextSize(),
                     color: _textColor,
@@ -55,12 +53,16 @@ class _ImagePageState extends State<ImagePage> {
         });
   }
 
+  _previousPage(BuildContext context) async {
+    Navigator.of(context).pushReplacementNamed("/home");
+  }
+
   updateUI() {
     _backgroundColor = getRandomColor();
     _textColor = getRandomColor();
     _randomPictureUrl = getRandomPictureUrl();
     setState(() => _randomPictureUrl);
-    setState(() => _clicksCount++);
+    setState(() => clicksCount++);
     setState(() => _textColor);
     setState(() => _backgroundColor);
   }

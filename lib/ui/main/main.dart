@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/utils/colors_manager.dart';
 import 'package:project/utils/text_manager.dart';
 
+import 'globals.dart';
 import 'image_page.dart';
 
 void main() {
@@ -32,11 +33,6 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   Color _backgroundColor = Colors.green;
   Color _textColor = Colors.black;
-  int _clicksCount = 0;
-
-  _nextPage(BuildContext context) async {
-    Navigator.of(context).pushReplacementNamed("/image_page");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +46,7 @@ class _MainState extends State<Main> {
             child: Align(
               alignment: Alignment.center,
               child: Text(
-                'Hey there!\nYou clicked $_clicksCount times',
+                'Hey there!\nYou clicked $clicksCount times',
                 style: TextStyle(
                     fontSize: getRandomTextSize(),
                     color: _textColor,
@@ -67,10 +63,14 @@ class _MainState extends State<Main> {
         });
   }
 
+  _nextPage(BuildContext context) async {
+    Navigator.of(context).pushReplacementNamed("/image_page");
+  }
+
   updateUI() {
     _backgroundColor = getRandomColor();
     _textColor = getRandomColor();
-    setState(() => _clicksCount++);
+    setState(() => clicksCount++);
     setState(() => _textColor);
     setState(() => _backgroundColor);
   }
