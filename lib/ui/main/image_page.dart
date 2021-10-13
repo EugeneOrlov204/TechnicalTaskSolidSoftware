@@ -1,52 +1,40 @@
 import 'package:flutter/material.dart';
+
 import 'package:project/utils/colors_manager.dart';
+import 'package:project/utils/images_manager.dart';
 import 'package:project/utils/text_manager.dart';
 
-import 'image_page.dart';
-
-void main() {
-  runApp(MaterialApp(
-      home: Scaffold(
-        body: Column(
-          children: const [
-            Expanded(
-              child: Main(),
-            ),
-          ],
-        ),
-      ),
-      routes: <String, WidgetBuilder>{
-        '/image_page': (BuildContext context) => const ImagePage(),
-        '/home': (BuildContext context) => const Main(),
-      })
-  );
-}
-
-class Main extends StatefulWidget {
-  const Main({Key? key}) : super(key: key);
+class ImagePage extends StatefulWidget {
+  const ImagePage({Key? key}) : super(key: key);
 
   @override
-  _MainState createState() => _MainState();
+  _ImagePageState createState() => _ImagePageState();
 }
 
-class _MainState extends State<Main> {
+class _ImagePageState extends State<ImagePage> {
   Color _backgroundColor = Colors.green;
   Color _textColor = Colors.black;
   int _clicksCount = 0;
+  String _randomPictureUrl = getRandomPictureUrl();
 
-  _nextPage(BuildContext context) async {
-    Navigator.of(context).pushReplacementNamed("/image_page");
+  _previousPage(BuildContext context) async {
+    Navigator.of(context).pushReplacementNamed("/home");
   }
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
         key: const ValueKey("dismiss_key"),
-        direction: DismissDirection.endToStart,
+        direction: DismissDirection.startToEnd,
         child: GestureDetector(
           onTap: updateUI,
           child: Container(
-            color: _backgroundColor,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(_randomPictureUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Align(
               alignment: Alignment.center,
               child: Text(
@@ -61,8 +49,8 @@ class _MainState extends State<Main> {
           ),
         ),
         onDismissed: (direction) {
-          if (direction == DismissDirection.endToStart) {
-            _nextPage(context);
+        if  (direction == DismissDirection.startToEnd) {
+            _previousPage(context);
           }
         });
   }
@@ -70,6 +58,8 @@ class _MainState extends State<Main> {
   updateUI() {
     _backgroundColor = getRandomColor();
     _textColor = getRandomColor();
+    _randomPictureUrl = getRandomPictureUrl();
+    setState(() => _randomPictureUrl);
     setState(() => _clicksCount++);
     setState(() => _textColor);
     setState(() => _backgroundColor);
